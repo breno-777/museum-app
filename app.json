@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "museum-app",
+    "slug": "museum-app",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
