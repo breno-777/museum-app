@@ -12,8 +12,14 @@
     "expo": "~49.0.10",
     "expo-splash-screen": "~0.20.5",
     "expo-status-bar": "~1.6.0",
+    "native-base": "^3.4.28",
     "react": "18.2.0",
-    "react-native": "0.72.4"
+    "react-native": "^0.72.4",
+    "react-native-base": "^1.1.0",
+    "react-native-gesture-handler": "~2.12.0",
+    "react-native-icon": "^0.2.10",
+    "react-native-modalize": "^2.1.1",
+    "react-native-screens": "~3.22.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
