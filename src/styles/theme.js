@@ -13,6 +13,12 @@ export const THEME = extendTheme({
       500: "#00B37E",
       300: "#04D361",
     },
+    brown: {
+      600: "#8D7B68",
+      500: "#A4907C",
+      300: "#C8B6A6",
+      100: "#F1DEC9",
+    },
     gray: {
       700: "#121214",
       600: "#202024",
@@ -27,6 +33,8 @@ export const THEME = extendTheme({
   fonts: {
     heading: "Lato_700Bold",
     body: "Lato_400Regular",
+
+    greatVibes: "GreatVibes_400Regular",
   },
   fontSizes: {
     xs: 12,

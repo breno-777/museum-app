@@ -3,17 +3,9 @@ import { Ionicons } from "@expo/vector-icons";
 
 import { ImageBackground } from "react-native";
 import React, { useRef } from "react";
-import {
-  VStack,
-  Image,
-  Button,
-  Text,
-  View,
-  HStack,
-  Icon,
-  Input,
-} from "native-base";
+import { VStack, Button, Text, HStack, Icon, Input } from "native-base";
 import bgImage from "../../assets/images/signIn-screen.png";
+import { StyledTitle, WelcomeStyledTitle } from "../../components/StyledTitle";
 
 export function SignIn() {
   const modalizeRef = useRef(null);
@@ -21,39 +13,49 @@ export function SignIn() {
   const onOpen = () => {
     modalizeRef.current?.open();
   };
+
   return (
     <>
-      <VStack flex={1} justifyContent={"center"}>
-        <Image
+      <VStack flex={1} justifyContent={"center"} h={"full"} w={"full"}>
+        <ImageBackground
           source={bgImage}
-          position={"absolute"}
-          w={"100%"}
-          h={"100%"}
-          right={-83}
-        />
-        <HStack position={"absolute"} top={0} mx={4} safeArea>
-          <Text
-            fontSize={"4xl"}
-            fontWeight={"bold"}
-            color={"white"}
-            right={90}
-            w={"100%"}
-          >
-            A vida é uma {"\n"}ART
-          </Text>
-        </HStack>
+          style={{
+            flex: 1,
+          }}
+        >
+          <HStack position={"absolute"} top={0} mx={4} safeArea>
+            <VStack>
+              <WelcomeStyledTitle
+                title={"A VIDA É UMA"}
+                subtitle={"ART"}
+                fontSize={"4xl"}
+                fontWeight={"bold"}
+                color={"white"}
+                w={"100%"}
+              />
+            </VStack>
+          </HStack>
 
-        <VStack flex={1} justifyContent={"flex-end"} mb={"30%"}>
-          <Button w={"100%"} mb={2} rounded={16} shadow={2}>
-            <Text fontSize={"lg"}> SignIn</Text>
-          </Button>
-          <Button rounded={16} onPress={onOpen} bgColor={"white"} shadow={2}>
-            <Text fontSize={"lg"} color={"#1982a2"}>
-              {" "}
-              SignUp
-            </Text>
-          </Button>
-        </VStack>
+          <VStack flex={1} justifyContent={"flex-end"} mb={"30%"} space={2}>
+            <Button rounded={16} shadow={2} bgColor={"brown.600"} mx={8}>
+              <Text fontSize={"lg"} color={"white"}>
+                SignIn
+              </Text>
+            </Button>
+
+            <Button
+              rounded={16}
+              onPress={onOpen}
+              bgColor={"white"}
+              shadow={2}
+              mx={8}
+            >
+              <Text fontSize={"lg"} color={"brown.600"}>
+                SignUp
+              </Text>
+            </Button>
+          </VStack>
+        </ImageBackground>
       </VStack>
 
       <Modalize
@@ -114,6 +116,7 @@ export function SignIn() {
               placeholder="Alice"
             />
           </VStack>
+
           <VStack
             borderBottomWidth={2}
             borderBottomColor={"gray.200"}
@@ -135,7 +138,14 @@ export function SignIn() {
             />
           </VStack>
 
-          <Button borderRadius={50} py={4} mt={8} mb={4} shadow={2}>
+          <Button
+            borderRadius={50}
+            py={4}
+            mt={8}
+            mb={4}
+            shadow={2}
+            bgColor={"brown.600"}
+          >
             Sign In
           </Button>
         </VStack>

@@ -9,7 +9,10 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@expo-google-fonts/great-vibes": "^0.2.3",
+    "@expo-google-fonts/lato": "^0.2.3",
     "expo": "~49.0.10",
+    "expo-font": "~11.4.0",
     "expo-splash-screen": "~0.20.5",
     "expo-status-bar": "~1.6.0",
     "native-base": "^3.4.28",
