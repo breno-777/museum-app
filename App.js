@@ -7,8 +7,14 @@ import { useFonts } from "expo-font";
 
 import { StatusBar } from "expo-status-bar";
 import { NativeBaseProvider } from "native-base";
-import { SignIn } from "./src/screens/SignIn";
 import { THEME } from "./src/styles/theme";
+import { Details } from "./src/screens/Details";
+
+const config = {
+  dependencies: {
+    "linear-gradient": require("expo-linear-gradient").LinearGradient,
+  },
+};
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -18,10 +24,10 @@ export default function App() {
   });
 
   return (
-    <NativeBaseProvider theme={THEME}>
+    <NativeBaseProvider config={config} theme={THEME}>
       <GestureHandlerRootView style={{ flex: 1 }}>
-        <StatusBar style="auto" />
-        {fontsLoaded ? <SignIn /> : console.log("Erro ao carregar Font")}
+        <StatusBar style="light" />
+        {fontsLoaded ? <Details /> : console.log("Erro ao carregar Font")}
       </GestureHandlerRootView>
     </NativeBaseProvider>
   );
