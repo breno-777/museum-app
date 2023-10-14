@@ -1,11 +1,24 @@
-import { Stack, Text } from "native-base";
+import { Stack } from "native-base";
 import React from "react";
 
 const handleButtonPress = (index) => {
   console.log(index);
   setFocusedButton(index);
 };
-const RandomItem = ({ text, ...rest }) => {
+const RandomItem = ({
+  text,
+  isOpen,
+  onClose,
+  setArtworkModalIsOpen,
+  ...rest
+}) => {
+  const handleOpenModal = () => {
+    setArtworkModalIsOpen(true);
+  };
+  const handleCloseModal = () => {
+    setArtworkModalIsOpen(false);
+  };
+
   return (
     <Stack
       {...rest}

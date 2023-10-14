@@ -11,8 +11,12 @@
   "dependencies": {
     "@expo-google-fonts/great-vibes": "^0.2.3",
     "@expo-google-fonts/lato": "^0.2.3",
+    "@react-navigation/native": "^6.1.8",
+    "@react-navigation/native-stack": "^6.9.14",
+    "axios": "^1.5.1",
     "expo": "~49.0.10",
     "expo-font": "~11.4.0",
+    "expo-linear-gradient": "~12.3.0",
     "expo-splash-screen": "~0.20.5",
     "expo-status-bar": "~1.6.0",
     "native-base": "^3.4.28",
@@ -23,7 +27,7 @@
     "react-native-icon": "^0.2.10",
     "react-native-modalize": "^2.1.1",
     "react-native-screens": "~3.22.0",
-    "expo-linear-gradient": "~12.3.0"
+    "@react-native-async-storage/async-storage": "1.18.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

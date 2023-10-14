@@ -1,27 +1,49 @@
-import { Modalize } from "react-native-modalize";
-import { Ionicons, Octicons } from "@expo/vector-icons";
-
 import { ImageBackground } from "react-native";
-import React, { useRef } from "react";
-import { VStack, Button, Text, HStack, Icon, Input, Stack } from "native-base";
+import React, { useEffect, useState } from "react";
+import { VStack, Button, Text, HStack } from "native-base";
 import bgImage from "../../assets/images/signIn-screen.png";
-import { StyledTitle, WelcomeStyledTitle } from "../../components/StyledTitle";
+import { WelcomeStyledTitle } from "../../components/StyledTitle";
+import { SignInModalSheet } from "../../components/SignInModalSheet";
+import { SignUpModalSheet } from "../../components/SignUpModalSheet";
 
 export function SignIn() {
-  const signInRef = useRef(null);
-  const signUpRef = useRef(null);
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const [signInModalIsOpen, setSignInModalIsOpen] = useState(false);
+  const [signUpModalIsOpen, setSignUpModalIsOpen] = useState(false);
 
   const handleOpenSignIn = () => {
-    if (signInRef.current) {
-      signInRef.current.open();
-    }
+    setSignInModalIsOpen(true);
   };
   const handleOpenSignUp = () => {
-    if (signUpRef.current) {
-      signUpRef.current.open();
-    }
+    setSignUpModalIsOpen(true);
+  };
+  const handleCloseModal = () => {
+    setSignInModalIsOpen(false);
+    setSignUpModalIsOpen(false);
   };
 
+  //  Verifica se o usuário está cadastrado no banco de dados
+  // const handleCheckUser = async () => {
+  //   if (email != "") {
+  //     const searchUser = await checkEmail({ email: email });
+  //     if (searchUser) {
+  //       console.log(`${email} encontrado!`);
+  //       setUerFound(true);
+  //     } else {
+  //       console.log(`${email} não encontrado.`);
+  //       setEmail("");
+  //       setUerFound(false);
+  //     }
+  //   }
+  // };
+
+  useEffect(() => {
+    setUsername("");
+  }, []);
   return (
     <>
       <VStack flex={1} justifyContent={"center"} h={"full"} w={"full"}>
@@ -72,217 +94,27 @@ export function SignIn() {
         </ImageBackground>
       </VStack>
 
-      <Modalize
-        ref={signUpRef}
-        snapPoint={450}
-        modalHeight={450}
-        HeaderComponent={
-          <HStack alignItems={"center"} justifyContent={"space-between"} m={6}>
-            <Text fontSize={"3xl"} fontWeight={"bold"} lineHeight={30}>
-              New {"\n"}Account
-            </Text>
+      <SignInModalSheet
+        isOpen={signInModalIsOpen}
+        setUsername={setUsername}
+        username={username}
+        setPassword={setPassword}
+        password={password}
+        onClose={handleCloseModal}
+      />
 
-            <Stack
-              borderWidth={1}
-              borderColor={"brown.700"}
-              rounded={999}
-              alignContent={"center"}
-              justifyContent={"center"}
-              p={4}
-            >
-              <Icon
-                as={<Octicons name={"device-camera"} size={24} />}
-                size={8}
-                color={"brown.500"}
-              />
-            </Stack>
-          </HStack>
-        }
-      >
-        <VStack mx={6} h={"100%"} alignContent={"center"}>
-          <VStack
-            borderBottomWidth={2}
-            borderBottomColor={"gray.200"}
-            pt={4}
-            px={2}
-          >
-            <Input
-              borderColor={"transparent"}
-              InputLeftElement={
-                <Icon
-                  as={<Ionicons name={"mail-outline"} size={24} />}
-                  size={6}
-                  color={"gray.400"}
-                />
-              }
-              placeholder="alice@gmail.com"
-            />
-          </VStack>
-
-          <VStack
-            borderBottomWidth={2}
-            borderBottomColor={"gray.200"}
-            pt={4}
-            px={2}
-          >
-            <Input
-              borderColor={"transparent"}
-              InputLeftElement={
-                <Icon
-                  as={
-                    <Ionicons
-                      name={"person-outline"}
-                      size={24}
-                      color={"gray"}
-                    />
-                  }
-                  size={6}
-                  color={"gray.400"}
-                />
-              }
-              placeholder="Alice"
-            />
-          </VStack>
-
-          <VStack
-            borderBottomWidth={2}
-            borderBottomColor={"gray.200"}
-            pt={4}
-            px={2}
-          >
-            <Input
-              borderColor={"transparent"}
-              InputLeftElement={
-                <Icon
-                  as={<Ionicons name={"key-outline"} size={24} />}
-                  size={6}
-                  color={"gray.400"}
-                />
-              }
-              placeholder="123456"
-            />
-          </VStack>
-
-          <Button
-            py={4}
-            mt={8}
-            mb={4}
-            borderRadius={50}
-            shadow={2}
-            bgColor={"brown.600"}
-          >
-            <Text fontSize={"xl"} color={"white"}>
-              Sign In
-            </Text>
-          </Button>
-        </VStack>
-      </Modalize>
-
-      <Modalize
-        ref={signInRef}
-        snapPoint={450}
-        modalHeight={350}
-        HeaderComponent={
-          <HStack alignItems={"center"} justifyContent={"space-between"} m={6}>
-            <Text fontSize={"3xl"} fontWeight={"bold"} lineHeight={30}>
-              Welcome Back{"\n"}User
-            </Text>
-
-            <Stack
-              borderWidth={1}
-              borderColor={"brown.700"}
-              rounded={999}
-              alignContent={"center"}
-              justifyContent={"center"}
-              p={4}
-            >
-              <Icon
-                as={<Octicons name={"device-camera"} size={24} />}
-                size={8}
-                color={"brown.500"}
-              />
-            </Stack>
-          </HStack>
-        }
-      >
-        <VStack mx={6} h={"100%"} alignContent={"center"}>
-          <VStack
-            borderBottomWidth={2}
-            borderBottomColor={"gray.200"}
-            pt={4}
-            px={2}
-          >
-            <Input
-              borderColor={"transparent"}
-              InputLeftElement={
-                <Icon
-                  as={<Ionicons name={"mail-outline"} size={24} />}
-                  size={6}
-                  color={"gray.400"}
-                />
-              }
-              placeholder="alice@gmail.com"
-            />
-          </VStack>
-          {/* 
-          <VStack
-            borderBottomWidth={2}
-            borderBottomColor={"gray.200"}
-            pt={4}
-            px={2}
-          >
-            <Input
-              borderColor={"transparent"}
-              InputLeftElement={
-                <Icon
-                  as={
-                    <Ionicons
-                      name={"person-outline"}
-                      size={24}
-                      color={"gray"}
-                    />
-                  }
-                  size={6}
-                  color={"gray.400"}
-                />
-              }
-              placeholder="Alice"
-            />
-          </VStack>
-
-          <VStack
-            borderBottomWidth={2}
-            borderBottomColor={"gray.200"}
-            pt={4}
-            px={2}
-          >
-            <Input
-              borderColor={"transparent"}
-              InputLeftElement={
-                <Icon
-                  as={<Ionicons name={"key-outline"} size={24} />}
-                  size={6}
-                  color={"gray.400"}
-                />
-              }
-              placeholder="123456"
-            />
-          </VStack> */}
-
-          <Button
-            py={4}
-            mt={8}
-            mb={4}
-            borderRadius={50}
-            shadow={2}
-            bgColor={"brown.600"}
-          >
-            <Text fontSize={"xl"} color={"white"}>
-              Sign In
-            </Text>
-          </Button>
-        </VStack>
-      </Modalize>
+      <SignUpModalSheet
+        isOpen={signUpModalIsOpen}
+        setUsername={setUsername}
+        username={username}
+        setEmail={setEmail}
+        email={email}
+        setPassword={setPassword}
+        password={password}
+        setConfirmPassword={setConfirmPassword}
+        confirmPassword={confirmPassword}
+        onClose={handleCloseModal}
+      />
     </>
   );
 }

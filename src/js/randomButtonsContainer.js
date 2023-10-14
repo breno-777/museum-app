@@ -5,7 +5,7 @@ import { Stack } from "native-base";
 import { useEffect } from "react";
 import { useState } from "react";
 
-const RandomButtonsContainer = ({ itemCount }) => {
+const RandomButtonsContainer = ({ itemCount, setArtworkModalIsOpen }) => {
   const { height, width } = Dimensions.get("screen");
 
   const randomPosition = () => ({
@@ -19,7 +19,11 @@ const RandomButtonsContainer = ({ itemCount }) => {
     [itemCount];
 
   const randomButtons = Array.from({ length: itemCount }).map((_, index) => (
-    <RandomItem key={index} style={randomPosition()} />
+    <RandomItem
+      key={index}
+      style={randomPosition()}
+      setArtworkModalIsOpen={setArtworkModalIsOpen}
+    />
   ));
 
   return (
