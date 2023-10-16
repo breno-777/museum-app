@@ -3,6 +3,8 @@ import { Icon, HStack, VStack, Text } from "native-base";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native";
+import { fetchArtistByName } from "../constants/requests/artists/fetchArtist";
+import { fetchArtworkByName } from "../constants/requests/artwork/fetchArtwork";
 
 function NavBar({ ...rest }) {
   const navigation = useNavigation();

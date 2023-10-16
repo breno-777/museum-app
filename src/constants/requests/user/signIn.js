@@ -1,5 +1,5 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import api from "../../api";
+import { saveUserIdToStorage } from "../../uuid";
 
 // export const checkEmail = async ({ email }) => {
 //   try {
@@ -35,25 +35,15 @@ import api from "../../api";
 //   }
 // };
 
-const saveUserIdToStorage = async (userId) => {
-  try {
-    await AsyncStorage.setItem("userId", userId.toString());
-    console.log("ID do usuário salvo com sucesso.");
-  } catch (error) {
-    console.error("Erro ao salvar ID do usuário:", error);
-  }
-};
-
 export const signIn = async ({ username, password }) => {
-  // const { id } = useParams();
   try {
     const response = await api.post("/login", {
       nome: username,
       senha: password,
     });
 
-    let userId = 1;
-    await saveUserIdToStorage(userId);
+    console.log(response);
+    await saveUserIdToStorage(1);
 
     return true;
   } catch (error) {

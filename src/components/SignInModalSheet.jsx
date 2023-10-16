@@ -54,7 +54,7 @@ export const SignInModalSheet = ({
             {username == "" ? "" : username}
           </Text>
 
-          <Stack
+          {/* <Stack
             borderWidth={1}
             borderColor={"brown.700"}
             rounded={999}
@@ -67,7 +67,7 @@ export const SignInModalSheet = ({
               size={8}
               color={"brown.500"}
             />
-          </Stack>
+          </Stack> */}
         </HStack>
       }
     >

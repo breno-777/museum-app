@@ -54,7 +54,7 @@ export const SignUpModalSheet = ({
             New {"\n"}Account
           </Text>
 
-          <Stack
+          {/* <Stack
             borderWidth={1}
             borderColor={"brown.700"}
             rounded={999}
@@ -67,7 +67,7 @@ export const SignUpModalSheet = ({
               size={8}
               color={"brown.500"}
             />
-          </Stack>
+          </Stack> */}
         </HStack>
       }
     >

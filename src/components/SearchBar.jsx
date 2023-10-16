@@ -2,11 +2,51 @@ import { HStack, Icon, Input } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useState } from "react";
+import {
+  fetchArtist,
+  fetchArtistByName,
+} from "../constants/requests/artists/fetchArtist";
+import {
+  fetchArtwork,
+  fetchArtworkByArtworkName,
+} from "../constants/requests/artwork/fetchArtwork";
 
-export const SearchBar = ({ value, onChangeText, filterOn }) => {
+export const SearchBar = ({
+  setArtists,
+  setArtworks,
+  filterOn,
+  isArtist,
+  ...rest
+}) => {
   const [appliedFilters, setAppliedFilters] = useState([]);
+  const [query, setQuery] = useState("");
+
+  const handleSearch = () => {
+    if (query) {
+      {
+        isArtist
+          ? fetchArtistByName(query).then((response) => {
+              setArtists(response);
+            })
+          : fetchArtworkByArtworkName(query).then((response) => {
+              setArtworks(response);
+            });
+      }
+    } else {
+      {
+        isArtist
+          ? fetchArtist().then((response) => {
+              setArtists(response);
+            })
+          : fetchArtwork().then((response) => {
+              setArtworks(response);
+            });
+      }
+    }
+  };
+
   return (
-    <HStack alignItems={"center"}>
+    <HStack alignItems={"center"} {...rest}>
       <HStack
         alignItems={"center"}
         flex={1}
@@ -26,10 +66,12 @@ export const SearchBar = ({ value, onChangeText, filterOn }) => {
           borderColor={"transparent"}
           focusOutlineColor={"transparent"}
           placeholder="Search"
-          onChangeText={onChangeText}
-          value={value}
+          onChangeText={(text) => setQuery(text)}
+          value={query}
         />
-        <Ionicons name="search" size={24} color="gray.400" />
+        <TouchableOpacity onPress={handleSearch}>
+          <Ionicons name="search" size={24} color="gray.400" />
+        </TouchableOpacity>
       </HStack>
       {filterOn ? (
         <TouchableOpacity onPress={() => {}} style={{ marginLeft: 8 }}>

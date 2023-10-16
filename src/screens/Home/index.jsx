@@ -8,18 +8,25 @@ import { Octicons } from "@expo/vector-icons";
 import { fetchArtwork } from "../../constants/requests/artwork/fetchArtwork";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
+import { fetchArtist } from "../../constants/requests/artists/fetchArtist";
+import { ArtistList } from "../../components/ArtistList";
 
 export function Home() {
   const navigation = useNavigation();
 
   const [searchQuery, setSearchQuery] = useState("");
   const [artworks, setArtworks] = useState([]);
+  const [artists, setArtists] = useState([]);
 
   const itemPerPage = 5;
 
   useEffect(() => {
     fetchArtwork({ page: 0, size: itemPerPage }).then((response) => {
       setArtworks(response);
+    });
+
+    fetchArtist({ page: 0, size: itemPerPage }).then((response) => {
+      setArtists(response);
     });
   }, []);
 
@@ -28,6 +35,7 @@ export function Home() {
       <NavBar zIndex={9999} />
       <ScrollView>
         <VStack
+          pb={24}
           safeArea={true}
           px={2}
           style={{
@@ -60,7 +68,7 @@ export function Home() {
           />
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate("explore");
+              navigation.navigate("exploreArtists", { isArtist: true });
             }}
           >
             <HStack
@@ -69,22 +77,22 @@ export function Home() {
               alignItems={"center"}
             >
               <Text fontSize={"2xl"} fontWeight={600}>
-                Popular
+                Artists
               </Text>
               <Icon as={<Octicons name={"chevron-right"} />} size={8} />
             </HStack>
           </TouchableOpacity>
 
-          <ArtworkList
-            data={artworks}
+          <ArtistList
+            data={artists}
             isHorizontal={true}
-            enableDetails={false}
+            enableDetails={true}
             imageWidth={40}
             imageHeight={32}
           />
 
           <ArtworkList
-            title={"Nearby Cards"}
+            title={"Popular"}
             screen={"explore"}
             canNavigate={true}
             data={artworks}

@@ -1,27 +1,34 @@
 import { Ionicons } from "@expo/vector-icons";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-import { HStack, VStack, Icon, Text, Stack, Spinner } from "native-base";
-import bgImage from "../../assets/images/details-screen.png";
+import { HStack, VStack, Icon, Text, Stack } from "native-base";
 import { ImageBackground, TouchableOpacity } from "react-native";
 import RandomButtonsContainer from "../../js/randomButtonsContainer";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { ArtworkModalSheet } from "../../components/ArtworkModalSheet";
+import { fetchArtistDetails } from "../../constants/requests/artists/fetchArtistDetails";
 
 export function Details() {
   const route = useRoute();
-  const [artworkModalIsOpen, setArtworkModalIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [artist, setArtist] = useState();
 
   const navigation = useNavigation();
   const handleGoBack = () => {
     navigation.goBack();
   };
 
-  const { artkwork } = route.params;
+  const { artwork } = route.params;
   const urls =
-    artkwork.imagens && artkwork.imagens.length > 0
-      ? artkwork.imagens[0].url
+    artwork.imagens && artwork.imagens.length > 0
+      ? artwork.imagens[0].url
       : null;
+
+  useEffect(() => {
+    fetchArtistDetails(artwork.artistas[0].id).then((response) => {
+      setArtist(response);
+    });
+  }, []);
 
   return (
     <VStack
@@ -39,7 +46,12 @@ export function Details() {
         },
       }}
     >
-      <ArtworkModalSheet data={artkwork} />
+      <ArtworkModalSheet
+        data={artwork}
+        artist={artist}
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+      />
       <HStack
         safeArea
         mx={4}
@@ -57,22 +69,22 @@ export function Details() {
         </TouchableOpacity>
 
         <Text fontSize={"2xl"} fontWeight={"bold"} color={"white"}>
-          {artkwork.nome}
+          {artwork.nome}
         </Text>
         {/* <Spinner size={"lg"} color={"white"} /> */}
         <TouchableOpacity
           onPress={() =>
-            navigation.navigate("fullDetails", { artkwork: artkwork })
+            navigation.navigate("fullDetails", {
+              artwork: artwork,
+              artist: artist,
+            })
           }
           style={{ rounded: 10, padding: 1 }}
         >
           <Icon as={<Ionicons name={"add"} />} size={8} color={"white"} />
         </TouchableOpacity>
       </HStack>
-      <RandomButtonsContainer
-        itemCount={3}
-        setArtworkModalIsOpen={setArtworkModalIsOpen}
-      />
+      <RandomButtonsContainer itemCount={3} setIsOpen={setIsOpen} />
       <VStack
         flex={1}
         justifyContent={"center"}

@@ -1,32 +1,23 @@
-import { Stack } from "native-base";
+import { Button, Stack } from "native-base";
 import React from "react";
 
-const handleButtonPress = (index) => {
-  console.log(index);
-  setFocusedButton(index);
-};
-const RandomItem = ({
-  text,
-  isOpen,
-  onClose,
-  setArtworkModalIsOpen,
-  ...rest
-}) => {
+const RandomItem = ({ text, index, isOpen, setIsOpen, ...rest }) => {
   const handleOpenModal = () => {
-    setArtworkModalIsOpen(true);
-  };
-  const handleCloseModal = () => {
-    setArtworkModalIsOpen(false);
+    setIsOpen(true);
+    console.log(index);
   };
 
   return (
-    <Stack
+    <Button
+      onPress={() => {
+        handleOpenModal();
+      }}
       {...rest}
       w={50}
       h={50}
       rounded={"full"}
       alignItems={"center"}
-      bgColor={"yellow.400"}
+      bgColor={"white"}
       justifyContent={"center"}
       position={"relative"}
     >
@@ -44,7 +35,7 @@ const RandomItem = ({
       >
         <Stack w={4} h={4} rounded={"full"} bgColor={"yellow.800"} />
       </Stack>
-    </Stack>
+    </Button>
   );
 };
 

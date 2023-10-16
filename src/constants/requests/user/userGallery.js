@@ -3,19 +3,15 @@ import { getUserIdFromStorage } from "./userDetails";
 
 export async function userGallery() {
   const id = await getUserIdFromStorage();
-  console.log("ID DO USUARIO ", id);
   try {
     const response = await api.get(`/usuarios/${id}/galeria`);
 
     if (response.data.obraDeArte.length > 0) {
-      console.log(
-        "Dados da galeria do usuário carregado com sucesso!",
-        response.data.obraDeArte
-      );
+      console.log("Dados da galeria do usuário carregado com sucesso!");
 
       return response.data.obraDeArte;
     } else {
-      console.error("Galeria do usuário vazia!", response.data);
+      console.warn("Galeria do usuário vazia!");
       return [];
     }
   } catch (error) {

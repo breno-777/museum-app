@@ -5,10 +5,12 @@ import { ArtworkList } from "../../components/ArtworkList";
 import NavBar from "../../components/NavBar";
 
 import { fetchArtwork } from "../../constants/requests/artwork/fetchArtwork";
+import { fetchArtist } from "../../constants/requests/artists/fetchArtist";
+import { ArtistList } from "../../components/ArtistList";
 
-export function Explore() {
+export function ExploreArtists({ isArtist }) {
   const [searchQuery, setSearchQuery] = useState("");
-  const [artworks, setArtworks] = useState([]);
+  const [artists, setArtists] = useState([]);
   const [appliedFilters, setAppliedFilters] = useState([]);
 
   const [currentPage, setCurrentPage] = useState(0);
@@ -18,22 +20,18 @@ export function Explore() {
 
   const handleEndReached = async (searchQuery) => {
     if (nextPage !== null) {
-      const response = await fetchArtwork({
+      const response = await fetchArtist({
         page: currentPage,
         size: itemPerPage,
       });
       if (response.length > 0) {
-        setArtworks([...artworks, ...response]);
+        setArtists([...artists, ...response]);
         setCurrentPage(currentPage + 1);
       } else {
         setNextPage(null);
       }
     }
   };
-
-  //   const extractFilterIds = (filters) => {
-  //     return filters.map((filter) => filter.id);
-  //   };
 
   useEffect(() => {
     handleEndReached();
@@ -59,11 +57,13 @@ export function Explore() {
             </Text>
           </HStack>
           <SearchBar
+            isArtist={isArtist}
             value={searchQuery}
+            filterOn={true}
             handleEndReached={() => {
               handleEndReached();
             }}
-            setArtworks={setArtworks}
+            setArtists={setArtists}
           />
 
           <ScrollView
@@ -71,11 +71,7 @@ export function Explore() {
             style={{ width: "100%" }}
             showsVerticalScrollIndicator={false}
           >
-            <ArtworkList
-              title={"Artworks"}
-              data={artworks}
-              enableDetails={true}
-            />
+            <ArtistList title={"Artists"} data={artists} enableDetails={true} />
           </ScrollView>
         </VStack>
       </ScrollView>

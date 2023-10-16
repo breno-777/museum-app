@@ -1,21 +1,27 @@
 import { Ionicons } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
 
-import { HStack, VStack, Icon, Text, Stack, Spinner } from "native-base";
-import { ImageBackground, TouchableOpacity } from "react-native";
+import {
+  HStack,
+  VStack,
+  Text,
+  Stack,
+  Image,
+  ScrollView,
+  Icon,
+} from "native-base";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { ArtworkModalSheet } from "../../components/ArtworkModalSheet";
 import { fetchArtworkDetails } from "../../constants/requests/artwork/fetchArtworkDetails";
 import { userGallery } from "../../constants/requests/user/userGallery";
 import { favoriteArtwork } from "../../constants/requests/artwork/favoriteArtwork";
 import { unfavoriteArtwork } from "../../constants/requests/artwork/unfavoriteArtwork";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 export function FullDetails() {
   const navigation = useNavigation();
   const route = useRoute();
-  const { artkwork } = route.params;
+  const { artwork, artist } = route.params;
 
-  const [artworkModalIsOpen, setArtworkModalIsOpen] = useState(false);
   const [artworkDetails, setArtworkDetails] = useState();
   const [favorite, setFavorite] = useState(false);
 
@@ -25,10 +31,10 @@ export function FullDetails() {
 
   const handleCheckFavorite = async () => {
     try {
-      const gallery = await userGallery(1);
-      const checkFavorite = gallery.some((art) => art.id === artkwork.id);
+      const gallery = await userGallery();
+      const checkFavorite = gallery.some((art) => art.id === artwork.id);
       if (checkFavorite) {
-        console.error("Obra de arte encontrada na galeria do usuário");
+        console.log("Obra de arte encontrada na galeria do usuário");
         return true;
       } else {
         console.log("Obra de arte não está na galeria do usuário");
@@ -41,17 +47,16 @@ export function FullDetails() {
 
   const handleAddFavorite = async () => {
     try {
-      const artworks = await userGallery(1);
-      const checkFavorite = artworks.some((art) => art.id === artkwork.id);
+      const response = await handleCheckFavorite();
 
-      if (checkFavorite) {
-        unfavoriteArtwork(1, artkwork.id);
+      if (response) {
+        console.log("Removendo obra de arte dos favoritos");
+        unfavoriteArtwork(artwork.id);
         setFavorite(false);
-        console.error("Obra de arte já está na galeria do usuário");
       } else {
-        favoriteArtwork(1, artkwork.id);
+        console.log("Adicionando obra de arte aos favoritos");
+        favoriteArtwork(artwork.id);
         setFavorite(true);
-        console.log("Obra de arte adicionada a galeria do usuário");
       }
     } catch (error) {
       console.error("Erro ao adicionar obra de arte a galeria:", error);
@@ -60,80 +65,118 @@ export function FullDetails() {
   };
 
   useEffect(() => {
-    handleCheckFavorite();
-    const response = fetchArtworkDetails(artkwork);
-    console.log(artkwork);
+    const response = fetchArtworkDetails(artwork.id);
     setArtworkDetails(response);
+    handleCheckFavorite().then((response) => {
+      response ? setFavorite(true) : setFavorite(false);
+    });
   }, []);
 
   const urls =
-    artkwork.imagens && artkwork.imagens.length > 0
-      ? artkwork.imagens[0].url
+    artwork.imagens && artwork.imagens.length > 0
+      ? artwork.imagens[0].url
       : null;
 
   return (
-    <VStack
-      flex={1}
-      alignContent={"center"}
-      bg={{
-        linearGradient: {
-          colors: [
-            "rgba(0, 0, 0, 0.8)",
-            "rgba(255, 255, 255, 0)",
-            "rgba(255, 255, 255, 0)",
-            "rgba(255, 255, 255, 0)",
-          ],
-          start: [0, 0.01],
-        },
-      }}
-    >
-      <ArtworkModalSheet data={artkwork} />
-      <HStack
-        safeArea
-        mx={4}
-        justifyContent={"space-between"}
-        alignItems={"center"}
-      >
-        <TouchableOpacity onPress={() => handleGoBack()}>
-          <Stack bgColor={"gray.25"} rounded={10} p={1}>
-            <Icon
-              as={<Ionicons name={"chevron-back"} />}
-              size={8}
-              color={"white"}
-            />
-          </Stack>
-        </TouchableOpacity>
+    <ScrollView showsVerticalScrollIndicator={false} bgColor={"white"}>
+      <VStack mb={20}>
+        <VStack flex={1}>
+          <VStack alignItems={"center"} flex={1}>
+            <Stack
+              bgColor={"gray.800"}
+              w={"100%"}
+              bg={{
+                linearGradient: {
+                  colors: ["rgba(0, 0, 0, 0.4)", "rgba(255, 255, 255, 0)"],
+                  start: [0, 0.1],
+                },
+              }}
+            >
+              <HStack
+                safeArea
+                position={"absolute"}
+                justifyContent={"space-between"}
+                px={2}
+                w={"full"}
+              >
+                <TouchableOpacity onPress={() => handleGoBack()}>
+                  <Stack bgColor={"gray.25"} rounded={10} p={1}>
+                    <Icon
+                      as={<Ionicons name={"chevron-back"} />}
+                      size={8}
+                      color={"white"}
+                    />
+                  </Stack>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => handleAddFavorite()}
+                  style={{ rounded: 10, padding: 1 }}
+                >
+                  <Icon
+                    as={<Ionicons name={favorite ? "star" : "star-outline"} />}
+                    size={8}
+                    color={favorite ? "secondary.700" : "white"}
+                  />
+                </TouchableOpacity>
+              </HStack>
+              <Image
+                w={"100%"}
+                h={280}
+                zIndex={-1}
+                source={{ uri: urls }}
+                alt={"Secondary manga Thumbnail"}
+              />
+            </Stack>
 
-        <Text fontSize={"2xl"} fontWeight={"bold"} color={"white"}>
-          {artkwork.nome}
-        </Text>
-        {/* <Spinner size={"lg"} color={"white"} /> */}
-        <TouchableOpacity onPress={() => handleAddFavorite()}>
-          <Stack rounded={10} p={1}>
-            <Icon
-              as={<Ionicons name={favorite ? "star" : "star-outline"} />}
-              size={8}
-              color={favorite ? "secondary.700" : "white"}
-            />
-          </Stack>
-        </TouchableOpacity>
-      </HStack>
+            <VStack px={2} w={"full"}>
+              <VStack
+                w={"full"}
+                mt={-100}
+                mb={15}
+                alignItems={"center"}
+                borderBottomWidth={1}
+                borderColor={"gray.100"}
+              >
+                <VStack flex={1} alignItems={"center"} mx={2} mt={"30%"}>
+                  <Text fontSize={"2xl"} fontWeight={"bold"}>
+                    {artwork.nome}
+                  </Text>
+                  <Text fontSize={"xl"}>
+                    {artwork.ano === "" ? "Desconhecido" : artwork.ano}
+                  </Text>
+                </VStack>
+              </VStack>
 
-      <VStack
-        flex={1}
-        justifyContent={"center"}
-        h={"full"}
-        w={"full"}
-        position={"absolute"}
-        zIndex={-1}
-      >
-        <ImageBackground
-          source={{ uri: urls }}
-          style={{
-            flex: 1,
-          }}
-        />
+              <HStack alignItems={"center"}>
+                <Image
+                  alt={artist.id.toString()}
+                  source={{ uri: artist.foto }}
+                  w={120}
+                  h={120}
+                  rounded={9999}
+                />
+                <VStack ml={2}>
+                  <Text fontSize={"xl"}>{artist.nome}</Text>
+                  <Text>{artist.nacionalidade}</Text>
+                </VStack>
+              </HStack>
+
+              <VStack w={"full"} mt={-100} mb={15} alignItems={"center"}>
+                <VStack flex={1} alignItems={"center"} mx={2} mt={"30%"}>
+                  <Text fontSize={"2xl"} fontWeight={"bold"}>
+                    Descrição
+                  </Text>
+                  <Text fontSize={"xl"}>
+                    {artwork.descricao === ""
+                      ? "Desconhecido"
+                      : artwork.descricao}
+                  </Text>
+                </VStack>
+              </VStack>
+            </VStack>
+          </VStack>
+        </VStack>
       </VStack>
-    </VStack>
+    </ScrollView>
   );
 }

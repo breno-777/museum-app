@@ -1,16 +1,17 @@
 import api from "../../api";
+import { getUserIdFromStorage } from "../user/userDetails";
 
-export const favoriteArtwork = async ({ usuarioId, obraDeArteId }) => {
+export const favoriteArtwork = async (obraDeArteId) => {
+  const id = await getUserIdFromStorage();
   try {
     const response = await api.post(
-      `/usuarios/${usuarioId}/galeria/${obraDeArteId}/save`
+      `/usuarios/${id}/galeria/${obraDeArteId}/save`
     );
-
-    const artwork = response.data.map((item) => ({
-      id: item.id,
-      nome: item.nome,
-    }));
-    console.log("Obras de arte salva com sucesso!", artwork);
+    const artwork = {
+      id: response.id,
+      nome: response.nome,
+    };
+    console.log("Obras de arte salva com sucesso!");
 
     return artwork;
   } catch (error) {

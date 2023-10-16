@@ -28,9 +28,7 @@ export function Settings() {
 
   const handleDeletAccount = async () => {
     try {
-      {
-        condition ? deleteAccount(id) : "";
-      }
+      await deleteAccount(navigation);
     } catch (error) {
       console.error("Falha ao confirma exclusão da conta", error);
     }
@@ -56,14 +54,19 @@ export function Settings() {
           </Text>
           <VStack>
             <VStack>
-              <HStack borderBottomWidth={1} borderColor={"gray.200"} mb={4}>
+              <HStack
+                borderBottomWidth={1}
+                borderColor={"gray.200"}
+                mb={4}
+                alignItems={"center"}
+              >
                 <Icon
                   as={<Ionicons name={"options-outline"} />}
                   size={6}
                   color={"black"}
                   mx={2}
                 />
-                <Text fontSize={"lg"} fontWeight={"bold"}>
+                <Text fontSize={"lg"} fontWeight={"600"}>
                   General
                 </Text>
               </HStack>
@@ -112,14 +115,19 @@ export function Settings() {
                 />
               </HStack>
 
-              <HStack borderBottomWidth={1} borderColor={"gray.200"} my={4}>
+              <HStack
+                borderBottomWidth={1}
+                borderColor={"gray.200"}
+                my={4}
+                alignItems={"center"}
+              >
                 <Icon
                   as={<Ionicons name={"person-outline"} />}
                   size={6}
                   color={"black"}
                   mx={2}
                 />
-                <Text fontSize={"lg"} fontWeight={"bold"}>
+                <Text fontSize={"lg"} fontWeight={"600"}>
                   Account
                 </Text>
               </HStack>

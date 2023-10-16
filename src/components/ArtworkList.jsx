@@ -10,7 +10,7 @@ import {
 } from "native-base";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
-import { Octicons } from "@expo/vector-icons";
+import { Octicons, Ionicons } from "@expo/vector-icons";
 
 export function ArtworkList({
   data,
@@ -22,9 +22,17 @@ export function ArtworkList({
   title,
   canNavigate,
   screen,
+  titleLimit,
   ...rest
 }) {
   const navigation = useNavigation();
+
+  function textLimit(text, limit) {
+    if (text.length > limit) {
+      return text.slice(0, limit) + "...";
+    }
+    return text;
+  }
 
   return (
     <FlatList
@@ -69,13 +77,26 @@ export function ArtworkList({
           <></>
         )
       }
+      ListEmptyComponent={
+        <VStack alignItems={"center"}>
+          <Text fontWeight={"bold"} fontSize={"2xl"} color={"gray.200"}>
+            There's nothing here!
+          </Text>
+          <Icon
+            as={<Ionicons name={"file-tray-outline"} alignContent={"center"} />}
+            size={20}
+            color={"gray.200"}
+            ml={2}
+          />
+        </VStack>
+      }
       renderItem={({ item }) => {
         const urls =
           item.imagens && item.imagens.length > 0 ? item.imagens[0].url : null;
 
         return (
           <TouchableOpacity
-            onPress={() => navigation.navigate("details", { artkwork: item })}
+            onPress={() => navigation.navigate("details", { artwork: item })}
             style={{
               flexDirection: "row",
               alignItems: "flex-start",
@@ -99,10 +120,16 @@ export function ArtworkList({
               />
             )}
             {enableDetails ? (
-              <HStack>
+              <HStack mt={2}>
                 <VStack>
-                  <Text>{item.nome != "" ? item.nome : "Desconhecido"}</Text>
-                  <Text>{item.ano != "" ? item.ano : "Desconhecido"}</Text>
+                  <Text fontSize={"md"}>
+                    {item.nome != ""
+                      ? textLimit(item.nome, titleLimit || 24)
+                      : "Desconhecido"}
+                  </Text>
+                  <Text>
+                    {item.ano != "" ? "Ano: " + item.ano : "Desconhecido"}
+                  </Text>
                 </VStack>
               </HStack>
             ) : (

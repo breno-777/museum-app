@@ -1,4 +1,5 @@
 import api from "../../api";
+import { saveUserIdToStorage } from "../../uuid";
 
 export const signUp = async ({ username, email, password }) => {
   try {
@@ -8,8 +9,8 @@ export const signUp = async ({ username, email, password }) => {
       senha: password,
     };
     await api.post(`/usuarios`, data).then((response) => {
-      console.log(response.data);
       console.log("Usuário cadastrado com sucesso!");
+      saveUserIdToStorage(response.data.id);
     });
     return true;
   } catch (error) {

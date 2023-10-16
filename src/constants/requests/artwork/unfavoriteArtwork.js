@@ -1,20 +1,13 @@
 import api from "../../api";
+import { getUserIdFromStorage } from "../user/userDetails";
 
-export const unfavoriteArtwork = async ({ usuarioId, obraDeArteId }) => {
+export const unfavoriteArtwork = async (obraDeArteId) => {
+  const id = await getUserIdFromStorage();
   try {
-    const response = await api.delete(
-      `/usuarios/${usuarioId}/galeria/${obraDeArteId}/remove`
-    );
+    await api.delete(`/usuarios/${id}/galeria/${obraDeArteId}/remove`);
 
-    const artwork = response.data.map((item) => ({
-      id: item.id,
-      nome: item.nome,
-    }));
-    console.log("Obras de arte removida com sucesso!", artwork);
-
-    return artwork;
+    console.log("Obras de arte removida com sucesso!");
   } catch (error) {
     console.error("Não foi possível remover obra de arte", error);
-    return false;
   }
 };
