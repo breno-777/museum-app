@@ -147,19 +147,23 @@ export function FullDetails() {
                 </VStack>
               </VStack>
 
-              <HStack alignItems={"center"}>
-                <Image
-                  alt={artist.id.toString()}
-                  source={{ uri: artist.foto }}
-                  w={120}
-                  h={120}
-                  rounded={9999}
-                />
-                <VStack ml={2}>
-                  <Text fontSize={"xl"}>{artist.nome}</Text>
-                  <Text>{artist.nacionalidade}</Text>
-                </VStack>
-              </HStack>
+              <TouchableOpacity onPress={() => {
+              navigation.navigate("artistDetails", { artist: artist });
+            }}>
+                <HStack alignItems={"center"}>
+                  <Image
+                    alt={artist.id.toString()}
+                    source={{ uri: artist.foto }}
+                    w={120}
+                    h={120}
+                    rounded={9999}
+                  />
+                  <VStack ml={2}>
+                    <Text fontSize={"xl"}>{artist.nome}</Text>
+                    <Text>{artist.nacionalidade}</Text>
+                  </VStack>
+                </HStack>
+              </TouchableOpacity>
 
               <VStack w={"full"} mt={-100} mb={15} alignItems={"center"}>
                 <VStack flex={1} alignItems={"center"} mx={2} mt={"30%"}>

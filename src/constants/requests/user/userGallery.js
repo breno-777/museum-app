@@ -11,7 +11,7 @@ export async function userGallery() {
 
       return response.data.obraDeArte;
     } else {
-      console.warn("Galeria do usuário vazia!");
+      console.log("Galeria do usuário vazia!");
       return [];
     }
   } catch (error) {

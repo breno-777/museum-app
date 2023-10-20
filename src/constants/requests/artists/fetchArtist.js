@@ -9,6 +9,8 @@ export const fetchArtist = async ({ page, size }) => {
       id: item.id,
       nome: item.nome,
       foto: item.foto,
+      nascimento: item.nascimento,
+      falecimento: item.falecimento,
       nacionalidade: item.nacionalidade,
     }));
     console.log("Artistas encontrados!", artists);
@@ -27,6 +29,8 @@ export const fetchArtistByName = async (nome) => {
       id: item.id,
       nome: item.nome,
       foto: item.foto,
+      nascimento: item.nascimento,
+      falecimento: item.falecimento,
       descricao: item.descricao,
       nacionalidade: item.nacionalidade,
     }));

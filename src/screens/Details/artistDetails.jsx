@@ -105,11 +105,22 @@ export const ArtistDetails = () => {
                       ? "Desconhecido"
                       : artist.nacionalidade}
                   </Text>
+                  <Text fontSize={"md"}>
+                    {artist.nascimento === ""
+                      ? "Desconhecido"
+                      : "Nascimento: " + artist.nascimento}
+                  </Text>
+                  <Text fontSize={"md"}>
+                    {artist.falecimento === ""
+                      ? "Desconhecido"
+                      : "Falecimento: " + artist.falecimento}
+                  </Text>
                 </VStack>
                 <VStack>
                   <TextExpander
                     textAlign={""}
                     maxLines={2}
+                    mt={4}
                     fontSize={"md"}
                     text={
                       selectedArtist.descricao != ""

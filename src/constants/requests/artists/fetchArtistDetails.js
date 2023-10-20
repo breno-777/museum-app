@@ -10,6 +10,8 @@ export const fetchArtistDetails = async (id) => {
           id: response.data.id,
           nome: response.data.nome,
           foto: response.data.foto,
+          nascimento: response.data.nascimento,
+          falecimento: response.data.falecimento,
           descricao: response.data.descricao,
           nacionalidade: response.data.nacionalidade,
         };
